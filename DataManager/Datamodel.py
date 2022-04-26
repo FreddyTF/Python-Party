@@ -2,7 +2,7 @@
 """Datenmodell
 Datenmodell das alle Datenklassen enthält
 
-author: name@email
+author: inf20079@lehre.dhbw-stuttgart.de
 dat: 19.04.22
 version: 0.0.1
 license: MIT
@@ -26,7 +26,17 @@ class Spielfeld():
         self.abbild = abbild
         
     def set_abbild(self, position:tuple, wert):
-        pass
+        """Überschreibt abbild an Position x,y 
+
+        Args:
+            position (tuple): X- und Y-Koordinate
+            wert (_type_): Neuer Wert
+
+        Returns:
+            _type_: Neuer Wert
+        """
+        self.abbild[position[0]][position[1]] = wert
+        return wert
 
 class Party():
     instance = None
