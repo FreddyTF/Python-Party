@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import PySimpleGUI as sg
-import matplotlib
+from __pycache__.cache import cache
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 # matplotlib.use('TkAgg')
 import numpy as np
@@ -145,26 +145,19 @@ layout = [[sg.TabGroup(
                        )],
           ]
 
-window = sg.Window(
-    'My window with tabs', 
-    layout, 
-    no_titlebar=False,
-    #modal=True,
-    resizable=True,
-    )
+cache = cache(layout)
 
 tab_keys = ('-TAB1-','-TAB2-','-TAB3-')         # map from an input value to a key
 
 drawn = False
 
 while True:
-    event, values = window.read()       # type
+    event, values = cache.read()       # type
     print(event, values)
     # add the plot to the window
     if not drawn:
-        fig_photo = draw_figure(window['-CANVAS-'].TKCanvas, fig)
+        fig_photo = draw_figure(cache['-CANVAS-'].TKCanvas, fig)
         drawn = True
     if event == sg.WIN_CLOSED:
+        cache.close()
         break
-
-window.close()
