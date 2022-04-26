@@ -1,18 +1,60 @@
 #!/usr/bin/env python
 import PySimpleGUI as sg
+import matplotlib
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+# matplotlib.use('TkAgg')
+import numpy as np
+import matplotlib.pyplot as plt
+
 # Simple example of TabGroup element and the options available to it
 
 sg.theme('Python')     # Please always add color to your window
 
+BUTTON_SIZE = (40,40)
+AUSWERTUNG_BUTTON_SIZE = (8,1)
+INPUT_SIZE = (5,1)
+FRAME_PADDING = (20,5)
+
 bg = sg.LOOK_AND_FEEL_TABLE[sg.CURRENT_LOOK_AND_FEEL]['BACKGROUND']
 
-play = b'iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAABmJLR0QA/wD/AP+gvaeTAAAByElEQVRoge3ZMWsUQRjG8Z8RFSKCgoJp0qSJjVpoZ2clkk8g5CtYpU+TD5DSUkvbVCFNYiM2dhZqY6GFQooEISGai8Xu4HgmcnM3c+su+4fj2L2dmedhb+Z95x16enp6hljBxaZF5OAE7/GoaSGTchJ9tnCrWTnjE0zs19+HWMPlJkWNQzAyh2c4rq+/YBnnmpOWRjASuIfX0f0d3GlAVzLDRmBG9Ta+1r8d4wVuTFdaGqcZCVzFOn7Uz+ziKc5PR1oa/zISWMRm9OxbPCisK5lRjASW8Clqs4H5MrLSSTECs1jFQd3ue319KbewVFKNBBbwMmr/EY8z6kpmXCOBh3gX9dNYdjCpEbigWs326r6OVKvdlQn7TSKHkcCcKt4MNJAd5DQSuI83Ud87uJ15jL8oYYTf2cE3f2YH1wuMhXJGAtdU8+WnwtlBaSOBu3gVjZc9O5iWEapJ/wSf6zEHeI6bZzWYmY6u/4v+rzUirZ/snVh+hwPitpYFxNanKJ1IGk9L4xcz6Eom18bqg5ZtrDqx1Y2LDwPVG2lV8aH15aDWF+jOKpkWi8o5GKWIXTwq56BzxwqdOejpxNFbJw5DO3M83dPT02J+AbN50HbYDxzCAAAAAElFTkSuQmCC'
-stop = b'iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAABmJLR0QA/wD/AP+gvaeTAAAAaklEQVRoge3ZQQqAMAxFwSre/8p6AZFUiXzKzLqLPNJVOwYAvLcVzpztU9Q8zrr/NUW3Y+JsZXsdSjdimY0ISSMkjZA0QtIISSMkjZA0QtIISSMkjZA0QtIISSMkzcxrfMo/ya1lNgIAX1zq+ANHUjXZuAAAAABJRU5ErkJggg=='
-eject = b'iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAABmJLR0QA/wD/AP+gvaeTAAAByklEQVRoge3YO2gUURSA4S+JRnyACIGADyxERAsb0UKrWIidWIidlSA2YpFWSauNVtrYiIU2YpFCLGwEEWwsBAsLEbFQFARFfKBZizkyK5pkZvZmZ7PeH05z595z/sPszpxdMplMJpMZbDZFLGsm8CxiomWXxqzBQ3QiHmNdq0YNGMc9RQOvIjqxNt6iVy1GcF0h/h47sR1vY+0mRluzq8ElhfBn7O9a34tPce1KC161OK8Q/Y7D/7h+EF9jz7k+etXilELwJ44vsO8ofsTeM33wqsURpdzZCvtPK5s+toRetZjCF4XYTI1zM3HmGw4lt6rJbnxQCF1tcP5ynP2IPQm9arENb0LkDsYa5BjFrcjxDjuS2VVkI16EwH2s6iHXStxVvjy39GxXkfV4Iu3Y0T3OPMWGBDkXZDUeRMHnmEyY+/eA2cEjrE2Y+w/GcDsKvcbWJaixGS+jxixWpC4wgmvK+WlX6gJddM9lN6J2Mi4q56cDKRPPwz7lXHYhVdJp5W+KtmK61yZOYG4AGpnDyV6byWT+ZxZ7Rnf6YlGdeX2XxZ8AVag6AiR9uzZg0U/G0NyR3MigUfU7MmhPr78YmjuSyWQymUxmmPgFokSdfYSQKDwAAAAASUVORK5CYII='
+play            = b'iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAYAAADimHc4AAABD0lEQVR4Ae3cMQ0CQQAEQGho6XGABlTgAhe4QAYq0IACBNBSkGObU0A+m3xmklWwCSzP/W0WBAAAAAAAAAD35JCUMJJ3ckm2SYECZh7JMSlQwMwnuSa7hEIBM8/klFAoYOab3JJ9QqGAmVdyTigVMGOyNgsoT1YFlCerAsqTVQHlyaqA8mRVQHmyKqA8WRVQnqwKKE9WBZQnqwLKk1UB5cmqgPJkVcAqJ6sCTNbRjck6ujFZRzcm6+jGZB29mKwKUICPIF/CCjBD/RBTgEcRHsZ5HF3gDxlMS3/KFziWgoNZjibicK7j6ZiWXlH6j5f08JqqF7VxVYHLOnBdjQubcGWZS/twbSUAAAAAAAAA/ADdgMtRnVRE7AAAAABJRU5ErkJggg=='
+fast_forward    = b'iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAQAAABIkb+zAAABTElEQVR42u2auU1DQRRFryyRkJA5JCamADdABZTgCiiBClwCFbgBCiB3SkjmiAQhDZoIeeXz/5vlwjmTn6crebmzSAAAAAAAAAAAAMd40lVXnl+T9KpFR54Rg5M+9aiLTjyjBuf1opsuPKMHJ71r2YFnwuC81po39kwcnPSmu6aeyYPzWumymSdkcNJGt408QQGSPvSgWQNPWIC8nnVd3RMaIGmr+8qe4AB5DWs5UZ4CAYa1nChPkQBDWk6Up1CAn1tOlKdggPMtJ8pTNMC5lhPlKR7gVMuJ8lQIcLzlRHkqBThsOVGeagH2W06Up2KA3ZYT5akc4LvlRHkI8I8+QuZfYvOfUes/MvMqYV3mzOu09YbGfEtpvqm3PlYxP9iyPlo0P9w1P163vuAwv2KyvuQzv2a1vug2f2pg/tjD/rkNAAAAAAAAAAD8Rb4AZBxZqxbx4MsAAAAASUVORK5CYII='
+pause           = b'iVBORw0KGgoAAAANSUhEUgAAAGAAAABgAQMAAADYVuV7AAAABlBMVEUAAAAAAAClZ7nPAAAAAXRSTlMAQObYZgAAABdJREFUeAFjAINR8P8/CA8nzihnlDMKAALA3yHZSvG0AAAAAElFTkSuQmCC'
+skip_forward    = b'iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAQAAABIkb+zAAABFElEQVR42u3asU0DQQBE0ZElEhIyQmJiF0ADVEAJVEAJroASqIAGXAA5KSEZEQmyNOQY4zvJSPvt/5wjfQnD3O4lkiRJkiRJ0hRPuTjoz+uPz79r3nLDDmg2WeWMHNA0L7lmBzSfuWcHNM1zLtkBzXtu2QFN85hzdkDzmiU7oPnKQxbkgKZZ54od0Hzkjh3QdOZaGjBg3loaMmDOWho0YPpaGjhg2loaOmDKWho+YN9aAgT8vZYgAbvXEiZg11oCBfy+lmAB22vJAH+FTuVLDP8ziv5HBp8S6DEHn9PoBxr4IyX8oR59rAI/2EIfLcIPd+HH6+gLDvgVE/qSD37Nir7ohr9qAH/ZA/+6jSRJkiRJko7BNzOGq2XyvK9AAAAAAElFTkSuQmCC'
+stop            = b'iVBORw0KGgoAAAANSUhEUgAAAGAAAABgAQMAAADYVuV7AAAABlBMVEUAAAAAAAClZ7nPAAAAAXRSTlMAQObYZgAAABhJREFUeAFjIBuMgv9gQGvOKGeUQy4YBQBv1R7w9ogoGwAAAABJRU5ErkJggg=='
 
-#API
-width = 2
-height = 2
+# ------------------------------------------ API ------------------------------------------------
+width = 10
+height = 10
+persons = [F'SACK{j}' for j in range(10)]
+
+# ------------------------------- PASTE YOUR MATPLOTLIB CODE HERE -------------------------------
+
+values_to_plot = (20, 35, 30, 35, 27)
+ind = np.arange(len(values_to_plot))
+p_width = 0.4
+
+p1 = plt.bar(ind, values_to_plot, p_width)
+
+plt.ylabel('Y-Axis Values')
+plt.title('Plot Title')
+plt.xticks(ind, ('Item 1', 'Item 2', 'Item 3', 'Item 4', 'Item 5'))
+plt.yticks(np.arange(0, 81, 10))
+plt.legend((p1[0],), ('Data Group 1',))
+
+
+# ------------------------------- END OF YOUR MATPLOTLIB CODE -------------------------------
+
+# ------------------------------- Beginning of Matplotlib helper code -----------------------
+
+def draw_figure(canvas, figure, loc=(0, 0)):
+    figure_canvas_agg = FigureCanvasTkAgg(figure, master=canvas)
+    print(canvas)
+    figure_canvas_agg.draw()
+    figure_canvas_agg.get_tk_widget().pack(side='top', fill='both', expand=1)
+    return figure_canvas_agg
+
+# ------------------------------- Beginning of GUI CODE -------------------------------
 
 # The tab 1, 2, 3 layouts - what goes inside the tab
 configurationLayout = [
@@ -22,43 +64,68 @@ configurationLayout = [
                     ]
 
 simulationLayout = [[
-    #sg.Text('Simulation'),
-    sg.Text('Iteration'),
-    ],
-    [
-    sg.Table(values=[['0' for _ in range(width)] for _ in range(height)],headings=[str(i) for i in range(width)],auto_size_columns=True),
-    ],
-    [
-    sg.Button(image_data=play, key='Play', border_width=0, button_color=(bg, bg)),
-    sg.Button(image_data=stop, key='Stop',  button_color=(bg, bg), border_width=0),
-    sg.Button(image_data=eject, key='Exit',  button_color=(bg, bg), border_width=0),
-    [
+    sg.Column([
         [
-            sg.Text('Anzahl Iterationen:'),
-            sg.Input(size=(12,1), key='-IN-TAB1-'),
+        #sg.Text('Simulation'),
+        sg.Text('Iteration',key='-ITER-'),
+        ],
+        [sg.Column([[sg.Button('-', size=(2, 1), key=(i,j), pad=(0,0), disabled=True)] for j in range(width)],pad=(0,5)) for i in range(height)] + [sg.Frame('Legende',[[sg.Column([[sg.Text(text=person)] for person in persons])]], p=FRAME_PADDING)],
+        [
+        *[sg.Column([[sg.Button(image_data=button[0], key=button[1],button_color=(bg, bg), border_width=0, image_size=BUTTON_SIZE)],[sg.Text(button[1])]], element_justification='center') for button in [(stop,'Stop'),(play,'Play'),(pause,'Pause'),(skip_forward,'Iteration'),(fast_forward,'Guest')]],
+        sg.Frame('Konfigurationen', [[
+            sg.Column([  
+            [sg.Text('Anzahl Iterationen:'  ,expand_x=True),sg.Input(size=INPUT_SIZE, key='-IN-TAB1-')],
+            [sg.Text('Verzögerung:'         ,expand_x=True),sg.Input(size=INPUT_SIZE, key='-IN-TAB1-')],
+            ]),
+            ]]),
+        ]
+    ]),
+    sg.VerticalSeparator(),
+    sg.Column([
+        [
+            sg.Frame('OnlineStatistik',
+            [
+                []
+            ])
         ],
         [
-            sg.Text('Verzögerung:'),
-            sg.Input(size=(12,1), key='-IN-TAB1-'),
+            sg.Text('durchschnittliches\nParty-Unbehagen:',expand_x=True),
+            sg.Input(size=INPUT_SIZE, key='-IN-TAB1-')
         ]
-    ]
-    ]]
+    ])
+]]
 
+fig = plt.gcf()  # if using Pyplot then get the figure from the plot
+figure_x, figure_y, figure_w, figure_h = fig.bbox.bounds
 
-resultLayout = [[sg.Text('Auswertung')]]
+resultLayout = [
+    [
+        sg.Button(button_text=button[0],k=button[1], s=AUSWERTUNG_BUTTON_SIZE) for button in [('Laden...','load'),('Sichern...','safe'),('Reset','reset')]
+    ],
+    [
+        sg.Frame('Legende',[[sg.Column([[sg.Text(text=person)] for person in persons])]], p=FRAME_PADDING),
+        sg.Canvas(size=(figure_w, figure_h), key='-CANVAS-')
+    ],
+    [
+        sg.Text('durchschnittliches\nParty-Unbehagen:'),
+        sg.Input(size=INPUT_SIZE, key='-IN-TAB1-'),
+        sg.Text('Party-Bewertung: '),
+        sg.Input(size=INPUT_SIZE, key='-IN-TAB1-')
+    ]   
+]
 
 # The TabgGroup layout - it must contain only Tabs
 tab_group_layout = [[
     sg.Tab(
         'Konfiguration', 
-        simulationLayout, 
+        configurationLayout, 
         font='Courier 15', 
         key='-TAB1-'
         ),
                      
     sg.Tab(
         'Simulation', 
-        configurationLayout, 
+        simulationLayout, 
         key='-TAB2-'
         ),
                      
@@ -76,7 +143,7 @@ layout = [[sg.TabGroup(
                     #expand_x=True,
                     #expand_y=True
                        )],
-          [sg.Text('Make tab number'), sg.Input(key='-IN-', size=(3,1)), sg.Button('Invisible'), sg.Button('Visible'), sg.Button('Select')]]
+          ]
 
 window = sg.Window(
     'My window with tabs', 
@@ -87,17 +154,17 @@ window = sg.Window(
     )
 
 tab_keys = ('-TAB1-','-TAB2-','-TAB3-')         # map from an input value to a key
+
+drawn = False
+
 while True:
     event, values = window.read()       # type
     print(event, values)
+    # add the plot to the window
+    if not drawn:
+        fig_photo = draw_figure(window['-CANVAS-'].TKCanvas, fig)
+        drawn = True
     if event == sg.WIN_CLOSED:
         break
-    # handle button clicks
-    if event == 'Invisible':
-        window[tab_keys[int(values['-IN-'])-1]].update(visible=False)
-    if event == 'Visible':
-        window[tab_keys[int(values['-IN-'])-1]].update(visible=True)
-    if event == 'Select':
-        window[tab_keys[int(values['-IN-'])-1]].select()
 
 window.close()
