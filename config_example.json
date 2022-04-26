@@ -1,0 +1,34 @@
+{
+    "Personen": [
+        {
+            "id": 1,
+            "name": "Brigitte",
+            "beruf": "Börsenmaklerin",
+            "symbol": "B",
+            "startposition": [5.75,5.75]
+        },
+        {
+            "id": 2,
+            "name": "Cäsar",
+            "beruf": "Zahnarzt",
+            "symbol": "C",
+            "startposition": [7.25,6.75]
+        }
+    ],
+    "Wunschabstände": [
+        {
+            "person1_id": 1,
+            "person2_id": 1,
+            "wunschabstand": 0
+        }
+    ],
+    "Spielfeld": {
+        "raum_weite": 14,
+        "raum_höhe": 9,
+        "tisch_breite": 1.0,
+        "tisch_laenge": 2.5,
+        "tisch_x": 4.25,
+        "tisch_y": 3.75,
+        "Iterationen": 150
+    }
+}
