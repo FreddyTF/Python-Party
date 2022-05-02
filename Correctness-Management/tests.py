@@ -1,3 +1,13 @@
+""" test_main
+
+    * all basic-tests
+
+    author:     Kania,Tomasz
+    date:       02.05.2022
+    version:    0.1 demo
+    license:    free
+"""
+
 import unittest
 import main
 

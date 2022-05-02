@@ -1,3 +1,13 @@
+""" test_main
+
+    * main test-starter
+
+    author:     Kania,Tomasz
+    date:       02.05.2022
+    version:    0.1 demo
+    license:    free
+"""
+
 import sys
 import unittest
 import tests
