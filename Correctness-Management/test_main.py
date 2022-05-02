@@ -12,8 +12,9 @@ import sys
 import unittest
 import tests
 
-### DO NOT DELETE THIS FILE
-### All tests are going to start from this file and logging is also implemented here
+
+# DO NOT DELETE THIS FILE
+# All tests are going to start from this file and logging is also implemented here
 
 def main(out=sys.stderr, verbosity=2):
     loader = unittest.TestLoader()
