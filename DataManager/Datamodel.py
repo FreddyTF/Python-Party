@@ -10,7 +10,8 @@ license: MIT
 """
 class Person():
 
-    def __init__(self, name:str, position:tuple, startposition:tuple, beziehung:list, befindlichkeit = 0) -> None:
+    def __init__(self, id:int, name:str, position:tuple, startposition:tuple, beziehung:list, befindlichkeit = 0) -> None:
+        self.id = id
         self.name = name
         self.beziehung = beziehung
         self.position = position
@@ -53,7 +54,6 @@ class Party():
 
 class Beziehung():
     
-    def __init__(self, person:Person, wunschabstand:int, beziehungpositiv:bool) -> None:
+    def __init__(self, person:Person, wunschabstand:int) -> None:
         self.person = person
         self.wunschabstand = wunschabstand
-        self.beziehungpositiv = beziehungpositiv
