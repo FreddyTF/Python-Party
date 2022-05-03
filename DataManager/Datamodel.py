@@ -10,11 +10,9 @@ license: MIT
 """
 class Person():
 
-    def __init__(self, id:int, name:str, beruf:str, symbol:str, position:tuple, startposition:tuple, beziehung:list, befindlichkeit = 0) -> None:
+    def __init__(self, id:int, name:str, position:tuple, startposition:tuple, beziehung:list, befindlichkeit = 0) -> None:
         self.id = id
         self.name = name
-        self.beruf = beruf
-        self.symbol = symbol
         self.beziehung = beziehung
         self.position = position
         self.startposition = startposition

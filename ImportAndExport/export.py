@@ -19,7 +19,7 @@ sys.path.append(parentdir)
 # Import global datamodel
 from DataManager.Datamodel import Person, Spielfeld, Party, Beziehung
 
-Person1 = Person(1, 'Peter', 'Prinzessin', 'P', (1,1), (0,0), ['Test1', 'Test2'], 0)
+Person1 = Person(1, 'Peter', (1,1), (0,0), ['Test1', 'Test2'], 0)
 #convert to JSON string
 jsonStr = json.dumps(Person1.__dict__)
 print(jsonStr)

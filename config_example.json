@@ -3,15 +3,11 @@
         {
             "id": 1,
             "name": "Brigitte",
-            "beruf": "Börsenmaklerin",
-            "symbol": "B",
             "startposition": [5.75,5.75]
         },
         {
             "id": 2,
             "name": "Cäsar",
-            "beruf": "Zahnarzt",
-            "symbol": "C",
             "startposition": [7.25,6.75]
         }
     ],
