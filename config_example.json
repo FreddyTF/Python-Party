@@ -3,12 +3,12 @@
         {
             "id": 1,
             "name": "Brigitte",
-            "startposition": [5.75,5.75]
+            "startposition": [2,5]
         },
         {
             "id": 2,
             "name": "Cäsar",
-            "startposition": [7.25,6.75]
+            "startposition": [7,6]
         }
     ],
     "Wunschabstaende": [
