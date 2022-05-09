@@ -11,7 +11,7 @@
             "startposition": [7.25,6.75]
         }
     ],
-    "Wunschabstände": [
+    "Wunschabstaende": [
         {
             "person1_id": 1,
             "person2_id": 1,
@@ -19,12 +19,12 @@
         }
     ],
     "Spielfeld": {
-        "raum_weite": 14,
-        "raum_höhe": 9,
-        "tisch_breite": 1.0,
-        "tisch_laenge": 2.5,
-        "tisch_x": 4.25,
-        "tisch_y": 3.75,
+        "raum_breite": 14,
+        "raum_hoehe": 9,
+        "tisch_breite": 1,
+        "tisch_hoehe": 2,
+        "tisch_x": 4,
+        "tisch_y": 3,
         "Iterationen": 150
     }
 }
