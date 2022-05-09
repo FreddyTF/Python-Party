@@ -40,7 +40,12 @@ class Spielfeld():
         return wert
 
 class Party():
+
     instance = None
+
+    def __init__(self) -> None:
+        return self.instance
+    
     def __init__(self, spielfeld:Spielfeld, personenliste:list) -> None:
         if self.instance is None:
             self.spielfeld = spielfeld
@@ -49,11 +54,10 @@ class Party():
 
         return self.instance
 
-    def __init__(self) -> None:
-        return self.instance
+    
 
 class Beziehung():
     
-    def __init__(self, person:Person, wunschabstand:int) -> None:
-        self.person = person
+    def __init__(self, personid:int, wunschabstand:int) -> None:
+        self.personid = personid
         self.wunschabstand = wunschabstand
