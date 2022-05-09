@@ -26,7 +26,6 @@ class TestCase(unittest.TestCase):
     # 3. run TEst
     def test_main(self):
         self.assertEqual(main.test1(), "Hello Python")
-        print("Hello World")
 
 
 if __name__ == '__main__':
