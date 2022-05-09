@@ -9,6 +9,9 @@
 """
 
 import unittest
+
+import ImportAndExport.importData
+import ImportAndExport.export
 import main
 
 
@@ -26,6 +29,14 @@ class TestCase(unittest.TestCase):
     # 3. run TEst
     def test_main(self):
         self.assertEqual(main.test1(), "Hello Python")
+
+    def test_import(self):
+        self.assertEqual(ImportAndExport.importData.importFromJson("config_example.json"), "DeinErgebnis")
+
+    def test_export(self):
+        self.assertEqual(ImportAndExport.export.fkt(), "DeinErgebnis")
+
+
 
 
 if __name__ == '__main__':
