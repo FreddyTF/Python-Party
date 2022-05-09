@@ -1,3 +1,13 @@
+# ! encoding-UTF-8
+"""export.py
+Export data model to a JSON file
+
+author: inf20026@lehre.dhbw-stuttgart.de
+date: 26.04.22
+version: 0.0.1
+license: MIT
+"""
+
 import json
 import sys, os
 
@@ -42,7 +52,10 @@ def importFromJson(configPath):
             xlist.append(tmp)
         ylist.append(xlist)
 
-    spielfeld = Spielfeld(data["Spielfeld"]["raum_hoehe"], data["Spielfeld"]["raum_breite"], ylist)
+    spielfeld = Spielfeld(data["Spielfeld"]["raum_hoehe"], data["Spielfeld"]["raum_breite"],
+                          data["Spielfeld"]["tisch_breite"], data["Spielfeld"]["tisch_hoehe"],
+                          data["Spielfeld"]["tisch_x"], data["Spielfeld"]["tisch_y"],
+                          data["Spielfeld"]["Iterationen"], ylist)
 
     # Create Party
     party = Party(spielfeld, personlist)
