@@ -1,5 +1,7 @@
 # ! encoding-UTF-8
-"""Datenmodell
+"""
+Datenmodel.py
+
 Datenmodell das alle Datenklassen enthält
 
 author: inf20079@lehre.dhbw-stuttgart.de

@@ -1,5 +1,13 @@
 #!/usr/bin/env python
 import time
+"""
+gui.py -
+
+author: python party
+date: 26.04.22
+version: 0.0.1
+license: MIT
+"""
 import PySimpleGUI as sg
 from sympy import true
 from __pycache__.cache import cache

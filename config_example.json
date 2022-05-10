@@ -3,17 +3,17 @@
         {
             "id": 1,
             "name": "Brigitte",
-            "startposition": [7,7]
+            "startposition": [6,6]
         },
         {
             "id": 2,
             "name": "Penelope",
-            "startposition": [5,1]
+            "startposition": [4,1]
         },
         {
             "id": 3,
             "name": "Willi",
-            "startposition": [2,3]
+            "startposition": [1,2]
         }
     ],
     "Wunschabstaende": [
@@ -83,8 +83,8 @@
         "raum_hoehe": 8,
         "tisch_breite": 3,
         "tisch_hoehe": 2,
-        "tisch_x": 3,
-        "tisch_y": 5,
+        "tisch_x": 2,
+        "tisch_y": 4,
         "Iterationen": 150
     }
 }
