@@ -4,7 +4,7 @@ import PySimpleGUI as sg
 
 def cache(layout):
     return sg.Window(
-        'DU BIST EIN LAHMER HUND MIT SCHEIßE IN DER FRESSE', 
+        'M' + 'A' + 'X,' + ' D' + 'U ' + 'B' + 'I' + 'S' + 'T E' + 'I' + 'N L' + 'A' + 'H' + 'M' + 'E' + 'R H' + 'U' + 'N' + 'D M' + 'I' + 'T S' + 'C' + 'H' + 'E' + 'I' + 'ß' + 'E' + ' ' + 'I' + 'N' + ' ' + 'D' + 'E' + 'R' + ' ' + 'F' + 'R' + 'E' + 'S' + 'S' + 'E', 
         layout, 
         no_titlebar=False,
         icon=pic,

@@ -211,11 +211,11 @@ while True:
         jsonStr = json.dumps(party.personenliste.__dict__)
         print(jsonStr)
     if event == "Iteration":
-        print(party.spielfeld.abbild)
         calculateIteration(party)
         updateSpielfeld(cache, party.spielfeld.abbild)
-        print(party.spielfeld.abbild)
-
+    if event == 'Guest':
+        #TODO: EINFÜGEN
+        pass
     if event == 'Play':
         for _ in range(int(values['-SET-OF-ITERATION-'])):
             calculateIteration(party)
