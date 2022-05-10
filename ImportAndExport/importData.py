@@ -52,6 +52,10 @@ def importFromJson(configPath):
             xlist.append(tmp)
         ylist.append(xlist)
 
+    # Add persons to spielfeld
+    for person in personlist:
+        ylist[person.startposition[0]][person.startposition[0]] = person.name[0]
+
     spielfeld = Spielfeld(data["Spielfeld"]["raum_hoehe"], data["Spielfeld"]["raum_breite"],
                           data["Spielfeld"]["tisch_breite"], data["Spielfeld"]["tisch_hoehe"],
                           data["Spielfeld"]["tisch_x"], data["Spielfeld"]["tisch_y"],
@@ -61,5 +65,5 @@ def importFromJson(configPath):
     party = Party(spielfeld, personlist)
     return party
 
-
 party = importFromJson("config_example.json")
+print(party.spielfeld.abbild)
