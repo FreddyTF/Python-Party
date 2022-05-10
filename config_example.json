@@ -3,12 +3,12 @@
         {
             "id": 1,
             "name": "Brigitte",
-            "startposition": [7,7]
+            "startposition": [0,0]
         },
         {
             "id": 2,
             "name": "Penelope",
-            "startposition": [5,1]
+            "startposition": [3,1]
         },
         {
             "id": 3,
