@@ -5,6 +5,16 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 # matplotlib.use('TkAgg')
 import numpy as np
 import matplotlib.pyplot as plt
+import sys, os
+currentdir = os.path.dirname(os.path.realpath(__file__))
+parentdir = os.path.dirname(currentdir)
+sys.path.append(parentdir)
+from DataManager.Datamodel import Person, Party, Spielfeld, Beziehung
+from ImportAndExport import importData
+import json
+#from ImportAndExport import exportData
+
+party = importData.importFromJson("config_example.json")
 
 # Simple example of TabGroup element and the options available to it
 
@@ -58,10 +68,19 @@ def draw_figure(canvas, figure, loc=(0, 0)):
 
 # The tab 1, 2, 3 layouts - what goes inside the tab
 configurationLayout = [
-                        [sg.Text('Konfiguration')],
-                        [sg.Text('Put your layout in here')],
-                        [sg.Text('Input something'), sg.Input(size=(12,1), key='-IN-TAB1-')]
-                    ]
+    [sg.Text("Konfiguration durch Import")],
+    [sg.Text("Importpfad: "), sg.Text(""), sg.FileBrowse(key="-IMPORTPATH-")],
+    [sg.Button("Importieren")],
+    [sg.Text('Manuelle Komfiguration:')],
+    [sg.Text('ID: ', size=(15, 1)), sg.InputText()],
+    [sg.Text('Name: ', size=(15, 1)), sg.InputText()],
+    [sg.Text('Startposition: ', size=(15, 1)), sg.InputText()],
+    [sg.Submit()],
+    
+
+    [sg.Button("Exportieren")]
+]
+
 
 simulationLayout = [[
     sg.Column([
@@ -151,6 +170,8 @@ tab_keys = ('-TAB1-','-TAB2-','-TAB3-')         # map from an input value to a k
 
 drawn = False
 
+party = importData.importFromJson("config_example.json")
+
 while True:
     event, values = cache.read()       # type
     print(event, values)
@@ -158,6 +179,11 @@ while True:
     if not drawn:
         fig_photo = draw_figure(cache['-CANVAS-'].TKCanvas, fig)
         drawn = True
+    if event == 'Importieren':
+        party = importData.importFromJson(values['-IMPORTPATH-'])
+    if event == 'Exportieren':
+        jsonStr = json.dumps(party.personenliste.__dict__)
+        print(jsonStr)
     if event == sg.WIN_CLOSED:
         cache.close()
         break
