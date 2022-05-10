@@ -6,6 +6,9 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import numpy as np
 import matplotlib.pyplot as plt
 import sys, os
+
+from Logic.main import calculateIteration
+
 currentdir = os.path.dirname(os.path.realpath(__file__))
 parentdir = os.path.dirname(currentdir)
 sys.path.append(parentdir)
@@ -15,6 +18,8 @@ import json
 #from ImportAndExport import exportData
 
 party = importData.importFromJson("config_example.json")
+
+from Logic.main import *
 
 # Simple example of TabGroup element and the options available to it
 
@@ -71,7 +76,7 @@ configurationLayout = [
     [sg.Text("Konfiguration durch Import")],
     [sg.Text("Importpfad: "), sg.Text(""), sg.FileBrowse(key="-IMPORTPATH-")],
     [sg.Button("Importieren")],
-    [sg.Text('Manuelle Komfiguration:')],
+    [sg.Text('Manuelle Konfiguration:')],
     [sg.Text('ID: ', size=(15, 1)), sg.InputText()],
     [sg.Text('Name: ', size=(15, 1)), sg.InputText()],
     [sg.Text('Startposition: ', size=(15, 1)), sg.InputText()],
@@ -82,13 +87,15 @@ configurationLayout = [
 ]
 
 
+
+
 simulationLayout = [[
     sg.Column([
         [
         #sg.Text('Simulation'),
         sg.Text('Iteration',key='-ITER-'),
         ],
-        [sg.Column([[sg.Button('-', size=(2, 1), key=(i,j), pad=(0,0), disabled=True)] for j in range(width)],pad=(0,5)) for i in range(height)] + [sg.Frame('Legende',[[sg.Column([[sg.Text(text=person)] for person in persons])]], p=FRAME_PADDING)],
+        [sg.Column([[sg.Button(party.spielfeld.abbild[i][j], size=(2, 1), key=(i,j), pad=(0,0))] for j in range(len(party.spielfeld.abbild[i]))],pad=(0,5)) for i in range(len(party.spielfeld.abbild))] + [sg.Frame('Legende',[[sg.Column([[sg.Text(text=person)] for person in persons])]], p=FRAME_PADDING)],
         [
         *[sg.Column([[sg.Button(image_data=button[0], key=button[1],button_color=(bg, bg), border_width=0, image_size=BUTTON_SIZE)],[sg.Text(button[1])]], element_justification='center') for button in [(stop,'Stop'),(play,'Play'),(pause,'Pause'),(skip_forward,'Iteration'),(fast_forward,'Guest')]],
         sg.Frame('Konfigurationen', [[
@@ -172,6 +179,12 @@ drawn = False
 
 party = importData.importFromJson("config_example.json")
 
+def updateSpielfeld(cache, field):
+    for i in range(len(field)):
+        for j in range(len(field[i])):
+            button = cache[(i, j)]
+            button.Update(text=field[i][j])
+
 while True:
     event, values = cache.read()       # type
     print(event, values)
@@ -181,6 +194,14 @@ while True:
         drawn = True
     if event == 'Importieren':
         party = importData.importFromJson(values['-IMPORTPATH-'])
+
+    if event == "Iteration":
+        print(party.spielfeld.abbild)
+        print("-----------------------")
+        calculateIteration(party)
+        updateSpielfeld(cache, party.spielfeld.abbild)
+        print(party.spielfeld.abbild)
+
     if event == 'Exportieren':
         jsonStr = json.dumps(party.personenliste.__dict__)
         print(jsonStr)

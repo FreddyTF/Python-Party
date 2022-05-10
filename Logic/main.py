@@ -16,14 +16,14 @@ def calculateIteration(party):
         neuBefindlichkeiten = []
         for field in fieldsList:
             neuBefindlichkeiten.append((calculateWellBeeing(person, field, party.spielfeld, party), field))
-        max = person.aktuelleBefindlichkeit
+        max = person.aktuellebefindlichkeit
         newField = person.position;
         for befindlichkeit in neuBefindlichkeiten:
             if befindlichkeit[0] > max:
                 max = befindlichkeit[0]
                 newField = befindlichkeit[1]
-        party.spielfeld[person.position[0]][person.position[1]] = '#'
-        party.spielfeld[field[0]][field[1]] = person.name[0]
+        party.spielfeld.abbild[person.position[0]][person.position[1]] = '#'
+        party.spielfeld.abbild[field[0]][field[1]] = person.name[0]
         moveTo(person, max, newField)
 
 
@@ -39,30 +39,35 @@ def getNeighborFields(position, spielfeld):
         for j in range(-1, 1):
             newY = position[1] + i
             newX = position[0] + j
-            if newY < spielfeld.height and newY >= 0:
-                if newX < spielfeld.width and newX >= 0:
+            if newY < spielfeld.raum_hoehe and newY >= 0:
+                if newX < spielfeld.raum_breite and newX >= 0:
                     if isPositionFree((newX, newY), spielfeld):
                         fieldslist.append([newX, newY])
     return fieldslist
 
 
 def isPositionFree(position, spielfeld):
-    if spielfeld[position[0], position[1]] == '#':
+    if spielfeld.abbild[position[0]][position[1]] == '#':
         return True
     return False
 
 
 def calculateWellBeeing(person, field, spielfeld, party):
-    aktuelleBefindlichkeit = person.aktuelleBefindlichkeit
+    aktuelleBefindlichkeit = person.aktuellebefindlichkeit
     beziehungsbefindlichkeiten = []
     for beziehung in person.beziehung:
+        if beziehung.personid == 0:
+            continue
+
         wunschAbstand = beziehung.wunschabstand
+
         personBeziehung = [i for i in party.personenliste if i.id == beziehung.personid][0]
-        tatAbstandX = math.abs(field[0] - personBeziehung.position[0])
-        tatAbstandY = math.abs(field[1] - personBeziehung.position[1])
+
+        tatAbstandX = abs(field[0] - personBeziehung.position[0])
+        tatAbstandY = abs(field[1] - personBeziehung.position[1])
         tatAbstand = math.sqrt(tatAbstandX * tatAbstandX + tatAbstandY * tatAbstandY)
-        befindlichkeitVonBeziehung = mapping_helper(math.abs(tatAbstand - wunschAbstand), 0, math.sqrt(
-            spielfeld.width * spielfeld.width + spielfeld.height * spielfeld.height), 5, 1)
+        befindlichkeitVonBeziehung = mapping_helper(abs(tatAbstand - wunschAbstand), 0, math.sqrt(
+            spielfeld.raum_breite * spielfeld.raum_breite + spielfeld.raum_hoehe * spielfeld.raum_hoehe), 5, 1)
         beziehungsbefindlichkeiten.append(befindlichkeitVonBeziehung)
     avgBefindlichkeit = sum(beziehungsbefindlichkeiten) / len(beziehungsbefindlichkeiten)
     return avgBefindlichkeit
@@ -74,7 +79,7 @@ def mapping_helper(value, rangeAmin, rangeAmax, rangeBmin, rangeBmax):
     rangeBspan = rangeBmax - rangeBmin
 
     # Convert the math range into a 0-1 range (float)
-    valueScaled = float(value - rangeAmin) / float(mathSpan)
+    valueScaled = float(value - rangeAmin) / float(rangeAspan)
 
     # Convert the 0-1 range into a value in the right range.
     return rangeBmin + (valueScaled * rangeBspan)
