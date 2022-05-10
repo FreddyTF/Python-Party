@@ -1,0 +1,55 @@
+{
+    "Personen": [
+        {
+            "id": 1,
+            "name": "Brigitte",
+            "startposition": [6,0]
+        },
+        {
+            "id": 2,
+            "name": "Penelope",
+            "startposition": [0,0]
+        }
+    ],
+    "Wunschabstaende": [
+        {
+            "person1_id": 1,
+            "person2_id": 1,
+            "wunschabstand": 0
+        },
+        {
+            "person1_id": 1,
+            "person2_id": 2,
+            "wunschabstand": 0
+        },
+        {
+            "person1_id": 1,
+            "person2_id": 0,
+            "wunschabstand": 12
+        },
+        {
+            "person1_id": 2,
+            "person2_id": 1,
+            "wunschabstand": 12
+        },
+        {
+            "person1_id": 2,
+            "person2_id": 2,
+            "wunschabstand": 0
+        },
+        {
+            "person1_id": 2,
+            "person2_id": 0,
+            "wunschabstand": 0
+        }
+    ],
+    "Spielfeld": {
+        "raum_breite": 10,
+        "raum_hoehe": 8,
+        "tisch_breite": 3,
+        "tisch_hoehe": 2,
+        "tisch_x": 2,
+        "tisch_y": 4,
+        "Iterationen": 150
+    }
+}

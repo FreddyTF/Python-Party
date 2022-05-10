@@ -35,7 +35,7 @@ def importFromJson(configPath):
         relationlist = []
         for relation in data["Wunschabstaende"]:
             if person.id == relation["person1_id"]:
-                tmp = Beziehung(relation["person2_id"], relation["wunschabstand"])
+                tmp = Beziehung(relation["person2_id"], relation["wunschabstand"]*2)
                 relationlist.append(tmp)
         person.beziehung = relationlist
         personlist[count] = person
@@ -66,5 +66,5 @@ def importFromJson(configPath):
     party = Party(spielfeld, personlist)
     return party
 
-party = importFromJson("config_example.json")
-print(party.spielfeld.abbild)
+# party = importFromJson("config_example.json")
+# print(party.spielfeld.abbild)
