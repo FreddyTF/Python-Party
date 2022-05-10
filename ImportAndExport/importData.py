@@ -20,7 +20,7 @@ from DataManager.Datamodel import Person, Party, Spielfeld, Beziehung
 
 def importFromJson(configPath):
 
-    with open("config_example.json", 'r') as f:
+    with open(configPath, 'r') as f:
         data = json.load(f)
     
     # Create personlist
