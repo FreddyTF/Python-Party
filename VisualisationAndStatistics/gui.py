@@ -1,25 +1,23 @@
 #!/usr/bin/env python
+import time
 import PySimpleGUI as sg
+from sympy import true
 from __pycache__.cache import cache
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 # matplotlib.use('TkAgg')
 import numpy as np
 import matplotlib.pyplot as plt
 import sys, os
-
-from Logic.main import calculateIteration
-
 currentdir = os.path.dirname(os.path.realpath(__file__))
 parentdir = os.path.dirname(currentdir)
 sys.path.append(parentdir)
 from DataManager.Datamodel import Person, Party, Spielfeld, Beziehung
+from Logic.main import *
 from ImportAndExport import importData
 import json
 #from ImportAndExport import exportData
 
 party = importData.importFromJson("config_example.json")
-
-from Logic.main import *
 
 # Simple example of TabGroup element and the options available to it
 
@@ -39,11 +37,18 @@ skip_forward    = b'iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAQAAABIkb+zAAABFElEQVR42u3a
 stop            = b'iVBORw0KGgoAAAANSUhEUgAAAGAAAABgAQMAAADYVuV7AAAABlBMVEUAAAAAAAClZ7nPAAAAAXRSTlMAQObYZgAAABhJREFUeAFjIBuMgv9gQGvOKGeUQy4YBQBv1R7w9ogoGwAAAABJRU5ErkJggg=='
 
 # ------------------------------------------ API ------------------------------------------------
-width = 10
-height = 10
-persons = [F'SACK{j}' for j in range(10)]
+
 
 # ------------------------------- PASTE YOUR MATPLOTLIB CODE HERE -------------------------------
+
+def legende() -> sg.Frame:
+    return sg.Frame('Legende',[[sg.Column([[sg.Text(text=str(person.id) + " : " + person.name)] for person in party.personenliste])]], p=FRAME_PADDING)
+
+def updateSpielfeld(cache, field):
+    for i in range(len(field)):
+        for j in range(len(field[i])):
+            button = cache[(i, j)]
+            button.Update(text=field[i][j])
 
 values_to_plot = (20, 35, 30, 35, 27)
 ind = np.arange(len(values_to_plot))
@@ -59,7 +64,8 @@ plt.legend((p1[0],), ('Data Group 1',))
 
 
 # ------------------------------- END OF YOUR MATPLOTLIB CODE -------------------------------
-
+width= 10
+height = 10
 # ------------------------------- Beginning of Matplotlib helper code -----------------------
 
 def draw_figure(canvas, figure, loc=(0, 0)):
@@ -87,21 +93,19 @@ configurationLayout = [
 ]
 
 
-
-
 simulationLayout = [[
     sg.Column([
         [
         #sg.Text('Simulation'),
         sg.Text('Iteration',key='-ITER-'),
         ],
-        [sg.Column([[sg.Button(party.spielfeld.abbild[i][j], size=(2, 1), key=(i,j), pad=(0,0))] for j in range(len(party.spielfeld.abbild[i]))],pad=(0,5)) for i in range(len(party.spielfeld.abbild))] + [sg.Frame('Legende',[[sg.Column([[sg.Text(text=person)] for person in persons])]], p=FRAME_PADDING)],
+        [sg.Column([[sg.Button(party.spielfeld.abbild[i][j], size=(2, 1), key=(i,j), pad=(0,0))] for j in range(len(party.spielfeld.abbild[i]))],pad=(0,5)) for i in range(len(party.spielfeld.abbild))] + [legende()],
         [
         *[sg.Column([[sg.Button(image_data=button[0], key=button[1],button_color=(bg, bg), border_width=0, image_size=BUTTON_SIZE)],[sg.Text(button[1])]], element_justification='center') for button in [(stop,'Stop'),(play,'Play'),(pause,'Pause'),(skip_forward,'Iteration'),(fast_forward,'Guest')]],
         sg.Frame('Konfigurationen', [[
             sg.Column([  
-            [sg.Text('Anzahl Iterationen:'  ,expand_x=True),sg.Input(size=INPUT_SIZE, key='-IN-TAB1-')],
-            [sg.Text('Verzögerung:'         ,expand_x=True),sg.Input(size=INPUT_SIZE, key='-IN-TAB1-')],
+            [sg.Text('Anzahl Iterationen:'  ,expand_x=True),sg.Input(size=INPUT_SIZE, key='-SET-OF-ITERATION-', default_text="0")],
+            [sg.Text('Verzögerung:'         ,expand_x=True),sg.Input(size=INPUT_SIZE, key='-SEC-OF-LATENCY-', default_text="1")],
             ]),
             ]]),
         ]
@@ -129,12 +133,12 @@ resultLayout = [
         sg.Button(button_text=button[0],k=button[1], s=AUSWERTUNG_BUTTON_SIZE) for button in [('Laden...','load'),('Sichern...','safe'),('Reset','reset')]
     ],
     [
-        sg.Frame('Legende',[[sg.Column([[sg.Text(text=person)] for person in persons])]], p=FRAME_PADDING),
+        legende(),
         sg.Canvas(size=(figure_w, figure_h), key='-CANVAS-')
     ],
     [
         sg.Text('durchschnittliches\nParty-Unbehagen:'),
-        sg.Input(size=INPUT_SIZE, key='-IN-TAB1-'),
+        sg.Input(size=INPUT_SIZE, key='-ddsdsd-'),
         sg.Text('Party-Bewertung: '),
         sg.Input(size=INPUT_SIZE, key='-IN-TAB1-')
     ]   
@@ -177,15 +181,16 @@ tab_keys = ('-TAB1-','-TAB2-','-TAB3-')         # map from an input value to a k
 
 drawn = False
 
+# Has the play_button pushed?
+play_flag        = False
+set_of_latency   = 0
+set_of_iteration = 0
+prior_time       = 0 
+
 party = importData.importFromJson("config_example.json")
 
-def updateSpielfeld(cache, field):
-    for i in range(len(field)):
-        for j in range(len(field[i])):
-            button = cache[(i, j)]
-            button.Update(text=field[i][j])
-
 while True:
+
     event, values = cache.read()       # type
     print(event, values)
     # add the plot to the window
@@ -194,17 +199,24 @@ while True:
         drawn = True
     if event == 'Importieren':
         party = importData.importFromJson(values['-IMPORTPATH-'])
-
+    if event == 'Exportieren':
+        jsonStr = json.dumps(party.personenliste.__dict__)
+        print(jsonStr)
     if event == "Iteration":
         print(party.spielfeld.abbild)
-        print("-----------------------")
         calculateIteration(party)
         updateSpielfeld(cache, party.spielfeld.abbild)
         print(party.spielfeld.abbild)
 
-    if event == 'Exportieren':
-        jsonStr = json.dumps(party.personenliste.__dict__)
-        print(jsonStr)
+    if event == 'Play':
+        for _ in range(int(values['-SET-OF-ITERATION-'])):
+            calculateIteration(party)
+            updateSpielfeld(cache, party.spielfeld.abbild)
+            time.sleep(int(values['-SEC-OF-LATENCY-']))
+
+    if event == 'Pause':
+        print("Pause")
+
     if event == sg.WIN_CLOSED:
         cache.close()
         break
