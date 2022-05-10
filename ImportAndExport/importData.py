@@ -20,7 +20,7 @@ from DataManager.Datamodel import Person, Party, Spielfeld, Beziehung
 
 def importFromJson(configPath):
 
-    with open("config_example.json", 'r') as f:
+    with open("../config_example.json", 'r') as f:
         data = json.load(f)
     
     # Create personlist
@@ -42,10 +42,11 @@ def importFromJson(configPath):
     
     # Add spielfeld
     ylist = []
-    for y in range(data["Spielfeld"]["raum_hoehe"]):
+    for y in range(data["Spielfeld"]["raum_breite"]):
         xlist = []
-        for x in range(data["Spielfeld"]["raum_breite"]):
-            if data["Spielfeld"]["tisch_x"] <= x <= (data["Spielfeld"]["tisch_x"]+data["Spielfeld"]["tisch_breite"]) and data["Spielfeld"]["tisch_y"] <= y <= (data["Spielfeld"]["tisch_y"]+data["Spielfeld"]["tisch_hoehe"]):
+        for x in range(data["Spielfeld"]["raum_hoehe"]):
+            if data["Spielfeld"]["tisch_y"] <= x <= (data["Spielfeld"]["tisch_y"]+data["Spielfeld"]["tisch_hoehe"]-1) \
+                    and data["Spielfeld"]["tisch_x"] <= y <= (data["Spielfeld"]["tisch_x"]+data["Spielfeld"]["tisch_breite"]-1):
                 tmp = "T"
             else:
                 tmp = "#"
@@ -54,7 +55,7 @@ def importFromJson(configPath):
 
     # Add persons to spielfeld
     for person in personlist:
-        ylist[person.startposition[0]][person.startposition[0]] = person.name[0]
+        ylist[person.startposition[0]][person.startposition[1]] = person.name[0]
 
     spielfeld = Spielfeld(data["Spielfeld"]["raum_hoehe"], data["Spielfeld"]["raum_breite"],
                           data["Spielfeld"]["tisch_breite"], data["Spielfeld"]["tisch_hoehe"],
