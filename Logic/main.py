@@ -11,17 +11,19 @@ def simulation(party):
 
 
 def calculateIteration(party):
-    for person in party.personList:
+    for person in party.personenliste:
         fieldsList = getNeighborFields(person.position, party.spielfeld)
         neuBefindlichkeiten = []
         for field in fieldsList:
-            neuBefindlichkeiten.append((calculateWellBeeing(person, field, party.spielfeld), field))
+            neuBefindlichkeiten.append((calculateWellBeeing(person, field, party.spielfeld, party), field))
         max = person.aktuelleBefindlichkeit
         newField = person.position;
         for befindlichkeit in neuBefindlichkeiten:
             if befindlichkeit[0] > max:
                 max = befindlichkeit[0]
                 newField = befindlichkeit[1]
+        party.spielfeld[person.position[0]][person.position[1]] = '#'
+        party.spielfeld[field[0]][field[1]] = person.name[0]
         moveTo(person, max, newField)
 
 
@@ -45,18 +47,19 @@ def getNeighborFields(position, spielfeld):
 
 
 def isPositionFree(position, spielfeld):
-    if spielfeld[position[0], position[1]] == '':
+    if spielfeld[position[0], position[1]] == '#':
         return True
     return False
 
 
-def calculateWellBeeing(person, field, spielfeld):
+def calculateWellBeeing(person, field, spielfeld, party):
     aktuelleBefindlichkeit = person.aktuelleBefindlichkeit
     beziehungsbefindlichkeiten = []
     for beziehung in person.beziehung:
         wunschAbstand = beziehung.wunschabstand
-        tatAbstandX = math.abs(field[0] - beziehung.person.position[0])
-        tatAbstandY = math.abs(field[1] - beziehung.person.position[1])
+        personBeziehung = [i for i in party.personenliste if i.id == beziehung.personid][0]
+        tatAbstandX = math.abs(field[0] - personBeziehung.position[0])
+        tatAbstandY = math.abs(field[1] - personBeziehung.position[1])
         tatAbstand = math.sqrt(tatAbstandX * tatAbstandX + tatAbstandY * tatAbstandY)
         befindlichkeitVonBeziehung = mapping_helper(math.abs(tatAbstand - wunschAbstand), 0, math.sqrt(
             spielfeld.width * spielfeld.width + spielfeld.height * spielfeld.height), 5, 1)
