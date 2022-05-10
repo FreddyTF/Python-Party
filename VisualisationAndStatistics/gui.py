@@ -1,4 +1,12 @@
 #!/usr/bin/env python
+"""
+gui.py -
+
+author: python party
+date: 26.04.22
+version: 0.0.1
+license: MIT
+"""
 import PySimpleGUI as sg
 from __pycache__.cache import cache
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg

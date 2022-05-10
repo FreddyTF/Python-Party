@@ -1,3 +1,10 @@
+"""
+Example-test.py
+
+License: MIT
+Author: Python Party
+"""
+
 import unittest
 import main
 

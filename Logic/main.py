@@ -1,3 +1,12 @@
+# ! encoding-UTF-8
+"""
+main.py -
+
+author: inf20026@lehre.dhbw-stuttgart.de
+date: 26.04.22
+version: 0.0.1
+license: MIT
+"""
 import math
 
 
