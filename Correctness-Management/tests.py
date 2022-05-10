@@ -10,8 +10,8 @@
 
 import unittest
 
-import ImportAndExport.importData
-import ImportAndExport.export
+from ImportAndExport.importData import importFromJson
+from DataManager.Datamodel import Party, Spielfeld, Person, Beziehung
 import main
 
 
@@ -21,22 +21,35 @@ import main
 
 class TestCase(unittest.TestCase):
 
-    def test_upper(self):
-        self.assertEqual('foo'.upper(), 'FOO')
-
-    # 1.st import file
-    # 2. check for equal in specified function
-    # 3. run TEst
-    def test_main(self):
-        self.assertEqual(main.test1(), "Hello Python")
+    # def test_upper(self):
+    #     self.assertEqual('foo'.upper(), 'FOO')
+    #
+    # # 1.st import file
+    # # 2. check for equal in specified function
+    # # 3. run TEst
+    # def test_main(self):
+    #     self.assertEqual(main.test1(), "Hello Python")
 
     def test_import(self):
-        self.assertEqual(ImportAndExport.importData.importFromJson("config_example.json"), "DeinErgebnis")
 
-    def test_export(self):
-        self.assertEqual(ImportAndExport.export.fkt(), "DeinErgebnis")
+        Testparty = Party(
+            Spielfeld(9, 14, abbild=[['#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#'],
+                                     ['#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#'],
+                                     ['#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#'],
+                                     ['#', '#', '#', '#', 'T', 'T', '#', '#', '#', '#', '#', '#', '#', '#'],
+                                     ['#', '#', '#', '#', 'T', 'T', '#', '#', '#', '#', '#', '#', '#', '#'],
+                                     ['#', '#', '#', '#', 'T', 'T', '#', '#', '#', '#', '#', '#', '#', '#'],
+                                     ['#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#'],
+                                     ['#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#'],
+                                     ['#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#']]),
+            [Person(1, 'Brigitte', [5.75, 5.75], [5.75, 5.75], Beziehung(1, 0), 0),
+             Person(2, 'Caesar', [7.25, 6.75], [7.25, 6.75], Beziehung(1, 0), 0)])
 
+        if(Testparty == importFromJson("../config_example.json")):
+            self.assertEqual(importFromJson("../config_example.json"), Testparty)
 
+    # def test_(self):
+    #     self.assertEqual()
 
 
 if __name__ == '__main__':
