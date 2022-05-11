@@ -21,17 +21,16 @@ import main
 
 class TestCase(unittest.TestCase):
 
-    # def test_upper(self):
-    #     self.assertEqual('foo'.upper(), 'FOO')
-    #
-    # # 1.st import file
-    # # 2. check for equal in specified function
-    # # 3. run TEst
-    # def test_main(self):
-    #     self.assertEqual(main.test1(), "Hello Python")
+    def test_upper(self):
+        self.assertEqual('foo'.upper(), 'FOO')
+
+    # 1.st import file
+    # 2. check for equal in specified function
+    # 3. run TEst
+    def test_main(self):
+        self.assertEqual(main.test1(), "Hello Python")
 
     def test_import(self):
-
         Testparty = Party(
             Spielfeld(9, 14, abbild=[['#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#'],
                                      ['#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#'],
@@ -45,11 +44,12 @@ class TestCase(unittest.TestCase):
             [Person(1, 'Brigitte', [5.75, 5.75], [5.75, 5.75], Beziehung(1, 0), 0),
              Person(2, 'Caesar', [7.25, 6.75], [7.25, 6.75], Beziehung(1, 0), 0)])
 
-        if(Testparty == importFromJson("../config_example.json")):
-            self.assertEqual(importFromJson("../config_example.json"), Testparty)
+        # self.assertEqual(importFromJson("../config_example.json"), Testparty)
 
-    # def test_(self):
-    #     self.assertEqual()
+        self.assertIsInstance(importFromJson("../config_example.json"), Party)
+
+    def test_(self):
+        self.assertEqual(1,1)
 
 
 if __name__ == '__main__':
