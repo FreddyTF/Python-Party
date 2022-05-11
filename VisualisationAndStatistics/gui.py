@@ -5,7 +5,7 @@ import time
 gui.py -
 
 author: python party
-date: 26.04.22
+date: 11.05.22
 version: 0.0.1
 license: MIT
 """
