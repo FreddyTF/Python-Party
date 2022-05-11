@@ -56,7 +56,7 @@ class TestCase(unittest.TestCase):
         self.assertEqual(main.test1(), "Hello Python")
 
     def test_import_true_1(self):
-        # Testparty = Party().
+        # Testparty = Party()
         # self.assertEqual(importFromJson("../config_example.json"), Testparty)
 
         self.assertIsInstance(importFromJson("../config_example.json"), Party)
