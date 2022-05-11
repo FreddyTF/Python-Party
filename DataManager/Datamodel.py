@@ -1,5 +1,7 @@
 # ! encoding-UTF-8
-"""Datenmodell
+"""
+Datenmodel.py
+
 Datenmodell das alle Datenklassen enthält
 
 author: inf20079@lehre.dhbw-stuttgart.de
@@ -21,9 +23,14 @@ class Person():
 
 class Spielfeld():
 
-    def __init__(self, höhe:int, weite:int, abbild:list) -> None:
-        self.höhe = höhe
-        self.weite = weite
+    def __init__(self, raum_hoehe:int, raum_breite:int, tisch_breite:int, tisch_hoehe:int, tisch_x:int, tisch_y:int, iterationen:int, abbild:list) -> None:
+        self.raum_hoehe = raum_hoehe
+        self.raum_breite = raum_breite
+        self.tisch_breite = tisch_breite
+        self.tisch_hoehe = tisch_hoehe
+        self.tisch_x = tisch_x
+        self.tisch_y = tisch_y
+        self.iterationen = iterationen
         self.abbild = abbild
         
     def set_abbild(self, position:tuple, wert):
@@ -54,7 +61,6 @@ class Party():
 
         return self.instance
 
-    
 
 class Beziehung():
     

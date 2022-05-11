@@ -3,12 +3,17 @@
         {
             "id": 1,
             "name": "Brigitte",
-            "startposition": [5.75,5.75]
+            "startposition": [6,6]
         },
         {
             "id": 2,
-            "name": "Cäsar",
-            "startposition": [7.25,6.75]
+            "name": "Penelope",
+            "startposition": [4,1]
+        },
+        {
+            "id": 3,
+            "name": "Willi",
+            "startposition": [1,2]
         }
     ],
     "Wunschabstaende": [
@@ -16,15 +21,70 @@
             "person1_id": 1,
             "person2_id": 1,
             "wunschabstand": 0
+        },
+        {
+            "person1_id": 1,
+            "person2_id": 2,
+            "wunschabstand": 1.5
+        },
+        {
+            "person1_id": 1,
+            "person2_id": 3,
+            "wunschabstand": 1.2
+        },
+        {
+            "person1_id": 1,
+            "person2_id": 0,
+            "wunschabstand": 0.3
+        },
+        {
+            "person1_id": 2,
+            "person2_id": 1,
+            "wunschabstand": 3.3
+        },
+        {
+            "person1_id": 2,
+            "person2_id": 2,
+            "wunschabstand": 0
+        },
+        {
+            "person1_id": 2,
+            "person2_id": 3,
+            "wunschabstand": 4.5
+        },
+        {
+            "person1_id": 2,
+            "person2_id": 0,
+            "wunschabstand": 1.5
+        },
+        {
+            "person1_id": 3,
+            "person2_id": 1,
+            "wunschabstand": 2.4
+        },
+        {
+            "person1_id": 3,
+            "person2_id": 2,
+            "wunschabstand": 0.9
+        },
+        {
+            "person1_id": 3,
+            "person2_id": 3,
+            "wunschabstand": 0
+        },
+        {
+            "person1_id": 3,
+            "person2_id": 0,
+            "wunschabstand": 1.5
         }
     ],
     "Spielfeld": {
-        "raum_breite": 14,
-        "raum_hoehe": 9,
-        "tisch_breite": 1,
+        "raum_breite": 10,
+        "raum_hoehe": 8,
+        "tisch_breite": 3,
         "tisch_hoehe": 2,
-        "tisch_x": 4,
-        "tisch_y": 3,
+        "tisch_x": 2,
+        "tisch_y": 4,
         "Iterationen": 150
     }
 }
